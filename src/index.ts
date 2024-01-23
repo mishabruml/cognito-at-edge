@@ -27,7 +27,7 @@ export interface AuthenticatorParams {
   csrfProtection?: {
     nonceSigningSecret: string;
   },
-  jwtVerifierFetcherRequestOptions?: SimpleJsonFetcher['defaultRequestOptions']
+  // jwtVerifierFetcherRequestOptions?: SimpleJsonFetcher['defaultRequestOptions']
 }
 
 interface LogoutConfiguration {
@@ -62,7 +62,7 @@ export class Authenticator {
   _cookieSettingsOverrides?: CookieSettingsOverrides;
   _logger;
   _jwtVerifier;
-  _jwtVerifierFetcherRequestOptions?: AuthenticatorParams['jwtVerifierFetcherRequestOptions']
+  // _jwtVerifierFetcherRequestOptions?: AuthenticatorParams['jwtVerifierFetcherRequestOptions']
 
   constructor(params: AuthenticatorParams) {
     this._verifyParams(params);
@@ -91,7 +91,9 @@ export class Authenticator {
     {
       jwksCache: new SimpleJwksCache({
         fetcher: new SimpleJsonFetcher({
-          defaultRequestOptions: this._jwtVerifierFetcherRequestOptions,
+          defaultRequestOptions: {
+            responseTimeout: 5000,
+          },
         }),
       }),
     }
